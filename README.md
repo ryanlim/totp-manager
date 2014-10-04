@@ -38,38 +38,38 @@ more than 2-3 accounts.
 You can encrypt this using the `encrypt` command, and decrypt it using
 `decrypt`.
 
-  [
-      {
-          "key": "FAKECODELOLOLFAKEFAKEFAKEDEMO234",
-          "label": "account1@gmail.com",
-          "provider": "Google"
-      },
-      {
-          "key": "FAKECODELOLOLFAKEFAKEFAKEDEMO432",
-          "label": "account2@gmail.com",
-          "provider": "Google"
-      },
-      {
-          "key": "LOLFAKELOL234567",
-          "label": "account1@gmail.com",
-          "provider": "Wordpress"
-      }
-  ]
+    [
+        {
+            "key": "FAKECODELOLOLFAKEFAKEFAKEDEMO234",
+            "label": "account1@gmail.com",
+            "provider": "Google"
+        },
+        {
+            "key": "FAKECODELOLOLFAKEFAKEFAKEDEMO432",
+            "label": "account2@gmail.com",
+            "provider": "Google"
+        },
+        {
+            "key": "LOLFAKELOL234567",
+            "label": "account1@gmail.com",
+            "provider": "Wordpress"
+        }
+    ]
 
 ### The `show` command:
 
 This is the default command that displays your account and TOTP codes.
 
-  Now: 2014-10-03 18:49:16 -0700
-  TOTP tokens expires in 14 seconds.
-  
-  Provider    Label                 TOTP
-  ----------  ------------------  ------
-  Google      account1@gmail.com  151369
-  Google      account2@gmail.com  985428
-  Wordpress   account1@gmail.com  080348
-  
-  Control-C to exit.
+    Now: 2014-10-03 18:49:16 -0700
+    TOTP tokens expires in 14 seconds.
+    
+    Provider    Label                 TOTP
+    ----------  ------------------  ------
+    Google      account1@gmail.com  151369
+    Google      account2@gmail.com  985428
+    Wordpress   account1@gmail.com  080348
+    
+    Control-C to exit.
 
 ### The `qrcode` command:
 
