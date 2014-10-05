@@ -271,10 +271,8 @@ class TOTPManager:
                 json_input = in_file_.readlines()
         raw_string = ''.join(json_input)
 
-        if self.json_payload_validator(raw_string):
-            unencrypted_secrets = json.loads(raw_string)
-
-
+        unencrypted_secrets = self.json_payload_validator(raw_string)
+        if unencrypted_secrets:
             encrypted_payload = self.aes256.encrypt(
                 self.password,
                 json.dumps(unencrypted_secrets, indent=4, sort_keys=True),
@@ -299,10 +297,13 @@ class TOTPManager:
             msgdgst=self.MESSAGE_DIGEST_ALGO
         )
 
-        if self.json_payload_validator(decrypted_payload_string):
-            return json.loads(decrypted_payload_string)
+        decrypted = self.json_payload_validator(decrypted_payload_string)
+        if decrypted:
+            return decrypted
 
     def json_payload_validator(self, json_payload_string):
+        new_payload = []
+
         try:
             json_obj = json.loads(json_payload_string)
         except ValueError:
@@ -322,7 +323,15 @@ class TOTPManager:
                 print "This is not a valid input (incorrect dictionary keys):\n%s" % json_payload_string
                 return False
 
-        return True
+            new_payload.append(
+                {
+                    'key': item['key'].replace(' ', '').upper(),
+                    'label': item['label'],
+                    'provider': item['provider'],
+                }
+            )
+
+        return new_payload
 
     def display_qrcodes(self, secrets_file):
         secrets = self.decrypt(secrets_file)
