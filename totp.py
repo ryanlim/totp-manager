@@ -362,24 +362,23 @@ class TOTPManager:
         sys.exit(0)
 
     def show_all(self, secrets_file):
+        secrets = self.decrypt(secrets_file)
+        if not secrets:
+            print "Invalid password."
+            sys.exit(1)
+
         screen = curses.initscr()# Init curses
         curses.noecho()
         curses.curs_set(0)
         screen.keypad(1)
 
-        def show():
+
+        def show(secrets):
             output = ""
             output_list = []
-            secrets = self.decrypt(secrets_file)
+
             for entry in secrets:
                 decrypted_key = entry['key']
-
-                try:
-                    decrypted_key.decode('ascii')
-                except UnicodeDecodeError:
-                    curses.endwin()
-                    print "Invalid password"
-                    sys.exit(1)
 
                 if len(decrypted_key) < 16:
                     decrypted_key = decrypted_key + '=' * (16-len(decrypted_key))
@@ -400,7 +399,7 @@ class TOTPManager:
 
         signal.signal(signal.SIGINT, self.handleSIGINT)
 
-        show()
+        show(secrets)
         while True:
             t=30
             expiration = (t-(int(time.time()) % t))
@@ -408,7 +407,7 @@ class TOTPManager:
             screen.addstr(1, 0, "TOTP tokens expires in %d second%s.  " % (expiration, "s"[expiration==1:]))
             screen.refresh()
             if expiration == 30:
-                show()
+                show(secrets)
             time.sleep(1)
 
         curses.endwin()
